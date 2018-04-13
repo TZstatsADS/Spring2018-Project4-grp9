@@ -1,5 +1,5 @@
 ### ADS Project 4 Spring 2018
-### Fangbing Liu
+### Fangbing Liu, Yanjun Lin
 ### Process Data
 
 MStrain <- read.csv("../data/MS_sample/data_train.csv")
