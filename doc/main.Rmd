@@ -96,14 +96,14 @@ load("../output/Similarity_Weight/weight_MSD_Movie_intersect.RData")
 # var_weight_MS <- var_weight_matrix(mat = MS_train)
 # var_weight_MS[is.na(var_weight_MS)] = 0
 # var_weight_MS <- round(var_weight_MS,3)
-# save(var_weight_MS, file = "../output/var_weight_MS.RData")
-load("../output/var_weight_MS.RData")
+# save(var_weight_MS, file = "../output/variance_weight/var_weight_MS.RData")
+load("../output/variance_weight/var_weight_MS.RData")
  
 # var_weight_Movie <- var_weight_matrix(mat = Movie_train)
 # var_weight_Movie[is.na(var_weight_Movie)] = 0
 # var_weight_Movie <- round(variance_weight_Movie,3)
-# save(var_weight_Movie, file = "../output/var_weight_Movie.RData")
-load("../output/var_weight_Movie.RData")
+# save(var_weight_Movie, file = "../output/variance_weight/var_weight_Movie.RData")
+load("../output/variance_weight/var_weight_Movie.RData")
 ```
 
 ## Selecting Neighborhoods
@@ -143,6 +143,7 @@ pearson_Movie_pred = predict.Movie(sim_weights = weight_pearson_Movie,
 MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
 MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
                                    top.neighbors = MSD_Movie_neighbor)
+
 # MSD(with intersection)
 MSD_Movie_neighbor_intersect =  neighbors.select(weight_MSD_Movie_intersect, N=20)
 MSD_Movie_pred_intersect = predict.Movie(sim_weights = weight_MSD_Movie_intersect,

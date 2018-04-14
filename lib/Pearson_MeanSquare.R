@@ -25,7 +25,6 @@ MSD <- function(data){
     for(j in 1:n){
       r_i <- data[i,]
       r_j <- data[j,]
-      #index <- intersect(which(!is.na(r_i)), which(!is.na(r_j)))
       dissim[i,j] <- mean((r_i - r_j)^2, na.rm = T)
       if(is.nan(dissim[i,j])){
         dissim[i,j] = NA
