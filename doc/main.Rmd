@@ -88,13 +88,82 @@ load("../output/Similarity_Weight/weight_MSD_Movie.RData")
 
 ## Variance Weighting 
 ```{r}
-
+# source("../lib/var_weight.R")
+# 
+# var_weight_MS <- var_weight_matrix(mat = MS_train)
+# var_weight_MS[is.na(var_weight_MS)] = 0
+# var_weight_MS <- round(var_weight_MS,3)
+# save(var_weight_MS, file = "../output/var_weight_MS.RData")
+load("../output/var_weight_MS.RData")
+ 
+# var_weight_Movie <- var_weight_matrix(mat = Movie_train)
+# var_weight_Movie[is.na(var_weight_Movie)] = 0
+# var_weight_Movie <- round(variance_weight_Movie,3)
+# save(var_weight_Movie, file = "../output/var_weight_Movie.RData")
+load("../output/var_weight_Movie.RData")
 ```
 
 ## Selecting Neighborhoods
 
-### Best-n neighbors
+### Best-n neighbors & Prediction
 ```{r}
+source("../lib/neighbor&predict.R")
+# MS Data:
+# Pearson
+pearson_MS_neighbor = neighbors.select(weight_pearson_MS, N=20)
+pearson_MS_pred = predict.MS(sim_weights = weight_pearson_MS, 
+                             top.neighbors = pearson_MS_neighbor)
+
+# MSD
+MSD_MS_neighbor = neighbors.select(weight_MSD_MS, N=20)
+MSD_MS_pred = predict.MS(sim_weights = weight_MSD_MS, 
+                             top.neighbors = MSD_MS_neighbor)
+# Pearson + Var
+pearson_var_MS = var_weight_MS * weight_pearson_MS
+pearson_var_MS_neighbor = neighbors.select(pearson_var_MS,N=20)
+pearson_var_MS_pred = predict.MS(sim_weights =pearson_var_MS, 
+                                 top.neighbors = pearson_var_MS_neighbor)
+
+# MSD + Var
+MSD_var_MS = var_weight_MS * weight_MSD_MS
+MSD_var_MS_neighbor = neighbors.select(MSD_var_MS,N=20)
+MSD_var_MS_pred = predict.MS(sim_weights =MSD_var_MS, 
+                                 top.neighbors = MSD_var_MS_neighbor)
+
+# Movie Data:
+# Pearson
+pearson_Movie_neighbor =  neighbors.select(weight_pearson_Movie, N=20)
+pearson_Movie_pred = predict.Movie(sim_weights = weight_pearson_Movie,
+                                   top.neighbors = pearson_Movie_neighbor)
+
+# MSD
+MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
+MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
+                                   top.neighbors = MSD_Movie_neighbor)
+
+# SimRank
+# simrank_Movie_neighbor =  neighbors.select(simrank_Movie, N=20)
+# simrank_Movie_pred = predict.Movie(sim_weights = simrank_Movie,
+#                                    top.neighbors = simrank_Movie_neighbor)
+
+# Pearson + Var
+pearson_var_Movie = var_weight_Movie * weight_pearson_Movie
+pearson_var_Movie_neighbor =  neighbors.select(pearson_var_Movie, N=20)
+pearson_var_Movie_pred = predict.Movie(sim_weights = pearson_var_Movie,
+                                       top.neighbors = pearson_var_Movie_neighbor)
+
+# MSD + Var
+MSD_var_Movie = var_weight_Movie * weight_MSD_Movie
+MSD_var_Movie_neighbor =  neighbors.select(MSD_var_Movie, N=20)
+MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
+                                       top.neighbors = MSD_var_Movie_neighbor)
+
+
+# SimRank + Var
+# simrank_var_Movie = var_weight_Movie * simrank_Movie
+# simrank_var_Movie_neighbor =  neighbors.select(simrank_var_Movie, N=20)
+# simrank_var_Movie_pred = predict.Movie(sim_weights = simrank_var_Movie,
+#                                        top.neighbors = simrank_var_Movie_neighbor)
 
 ```
 
@@ -104,16 +173,33 @@ load("../output/Similarity_Weight/weight_MSD_Movie.RData")
 ```
 
 # Evaluation 
+```{r}
+source("../lib/Evaluation.R")
+```
 
 ### MS Dataset
 ### Rank Score
 ```{r}
+pearson_rankscore_MS <- rank_score(pearson_MS_pred, MS_test)
+pearson_var_rankscore_MS <- rank_score(pearson_var_MS_pred, MS_test)
 
+MSD_rankscore_MS <- rank_score(MSD_MS_pred, MS_test)
+MSD_var_rankscore_MS <- rank_score(MSD_var_MS_pred, MS_test)
+
+pearson_rankscore_MS
+pearson_var_rankscore_MS
+MSD_rankscore_MS
+MSD_var_rankscore_MS
 ```
 
 ### EachMovie Dataset
 ### MAE
 ```{r}
+pearson_MAE_Movie <- MAE(pearson_Movie_pred, Movie_test)
+pearson_var_MAE_Movie <- MAE(pearson_var_Movie_pred, Movie_test)
+
+MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
+MSD_var_MAE_Movie <- MAE(MSD_var_Movie_pred, Movie_test)
 
 ```
 

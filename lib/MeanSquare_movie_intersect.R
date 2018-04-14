@@ -23,16 +23,17 @@ MSD_intersect <- function(data){
     for(j in 1:n){
       r_i <- data[i,]
       r_j <- data[j,]
-      n_intersect <- length(intersect(which(!is.na(r_i)), which(!is.na(r_j))))
-      if(n_intersect > 60){
-        dissim[i,j] <- 0
-      }
-      else{
-        dissim[i,j] <- mean((r_i - r_j)^2, na.rm = T)
-      }
-      if(is.nan(dissim[i,j])){
-        dissim[i,j] = NA
-      }
+      index <- intersect(which(!is.na(r_i)), which(!is.na(r_j)))
+      #n_intersect <- length(index)
+      #if(n_intersect > 60){
+        dissim[i,j] <- mean((r_i[index] - r_j[index])^2)
+      #}
+      #else{
+      #  dissim[i,j] <- mean((r_i - r_j)^2, na.rm = T)
+      #}
+      #if(is.nan(dissim[i,j])){
+      #  dissim[i,j] = NA
+      #}
     }
   }
   sim <- round((max(dissim, na.rm = T) - dissim)/max(dissim, na.rm = T),4)
