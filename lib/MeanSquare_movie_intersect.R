@@ -3,15 +3,15 @@
 ### Memory-based 
 ### Similarity Weights(MSD of movie data with intersection)
 
-n_intersect <- matrix(NA, nrow = nrow(Movie_train), ncol = nrow(Movie_train))
-for(i in 1:nrow(Movie_train)){
-  for(j in 1:nrow(Movie_train)){
-    r_i <- Movie_train[i,]
-    r_j <- Movie_train[j,]
-    n_intersect[i,j] <- length(intersect(which(!is.na(r_i)), which(!is.na(r_j))))
-  }
-}
-mean(n_intersect) # 45
+# n_intersect <- matrix(NA, nrow = nrow(Movie_train), ncol = nrow(Movie_train))
+# for(i in 1:nrow(Movie_train)){
+#   for(j in 1:nrow(Movie_train)){
+#     r_i <- Movie_train[i,]
+#     r_j <- Movie_train[j,]
+#     n_intersect[i,j] <- length(intersect(which(!is.na(r_i)), which(!is.na(r_j))))
+#   }
+# }
+# mean(n_intersect) # 45
 
 MSD_intersect <- function(data){
   n <- nrow(data) # number of users
@@ -24,16 +24,7 @@ MSD_intersect <- function(data){
       r_i <- data[i,]
       r_j <- data[j,]
       index <- intersect(which(!is.na(r_i)), which(!is.na(r_j)))
-      #n_intersect <- length(index)
-      #if(n_intersect > 60){
-        dissim[i,j] <- mean((r_i[index] - r_j[index])^2)
-      #}
-      #else{
-      #  dissim[i,j] <- mean((r_i - r_j)^2, na.rm = T)
-      #}
-      #if(is.nan(dissim[i,j])){
-      #  dissim[i,j] = NA
-      #}
+      dissim[i,j] <- mean((r_i[index] - r_j[index])^2)
     }
   }
   sim <- round((max(dissim, na.rm = T) - dissim)/max(dissim, na.rm = T),4)

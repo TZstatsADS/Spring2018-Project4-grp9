@@ -1,6 +1,6 @@
 ---
 title: "Project 4 - Collaborative Filtering Algorithms Evaluation"
-author: "Fangbing Liu"
+author: "Group 9"
 date: "Spring 2018"
 output: pdf_document
 ---
@@ -10,12 +10,7 @@ output: pdf_document
 ## Load the packages, specify directories
 
 ```{r}
-# if (!require("pacman")) install.packages("pacman")
-# pacman::p_load(text2vec, dplyr, qlcMatrix, kernlab, knitr)
-# 
-# setwd("~/Dropbox/Project4_WhoIsWho/doc")
-# # here replace it with your own path or manually set it in RStudio
-# # to where this rmd file is located
+
 ```
 
 ## Load and process the data
@@ -167,11 +162,6 @@ MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
 
 ```
 
-# Model-based Algorithms(Cluster Model)
-```{r}
-
-```
-
 # Evaluation 
 ```{r}
 source("../lib/Evaluation.R")
@@ -201,10 +191,37 @@ pearson_var_MAE_Movie <- MAE(pearson_var_Movie_pred, Movie_test)
 MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
 MSD_var_MAE_Movie <- MAE(MSD_var_Movie_pred, Movie_test)
 
+# simrank_MAE_Movie <- MAE(simrank_Movie_pred, Movie_test)
+# simrank_var_MAE_Movie <- MAE(simrank_var_Movie_pred, Movie_test)
+
+pearson_MAE_Movie
+pearson_var_MAE_Movie
+MSD_MAE_Movie
+MSD_var_MAE_Movie
+simrank_MAE_Movie
+simrank_var_MAE_Movie
 ```
 
-### ROC
+### ROC_4
+```{r}
+pearson_ROC_4_Movie <- ROC_4(pearson_Movie_pred, Movie_test)
+pearson_var_ROC_4_Movie <- ROC_4(pearson_var_Movie_pred, Movie_test)
+
+MSD_ROC_4_Movie <- ROC_4(MSD_Movie_pred, Movie_test)
+MSD_var_ROC_4_Movie <- ROC_4(MSD_var_Movie_pred, Movie_test)
+
+# simrank_ROC_4_Movie <- ROC_4(simrank_Movie_pred, Movie_test)
+# simrank_var_ROC_4_Movie <- ROC_4(simrank_var_Movie_pred, Movie_test)
+
+pearson_ROC_4_Movie
+pearson_var_ROC_4_Movie
+MSD_ROC_4_Movie
+MSD_var_ROC_4_Movie
+simrank_ROC_4_Movie
+simrank_var_ROC_4_Movie
+```
+
+# Model-based Algorithms(Cluster Model)
 ```{r}
 
 ```
-
