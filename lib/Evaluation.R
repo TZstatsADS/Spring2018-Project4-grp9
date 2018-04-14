@@ -41,4 +41,18 @@ ROC_4 <- function(predict, test){
   return(good_num/n)
 }
 
-
+rank_score <- function(pred_set, true_set){
+  # here we set d = 0 since for MS data we only have positive sample
+  items <- ncol(true_set)
+  users <- nrow(true_set)
+  
+  rank_pred <- items+1-t(apply(pred_set,1,rank,ties.method="first"))
+  rank_ture <-  items+1-t(apply(true_set,1,rank,ties.method="first"))
+  
+  weight_pred <- t(apply(rank_pred,1,function(x){return(1/2^((x-1)/(5-1)))}))
+  weight_ture <- t(apply(rank_ture,1,function(x){return(1/2^((x-1)/(5-1)))}))
+  
+  R_a <- sum(weight_pred*true_set)
+  R_max <- sum(weight_ture*true_set)
+  return(R_a/R_max*100)
+}
