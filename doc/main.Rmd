@@ -180,13 +180,43 @@ MSD_var_Movie_pred_intersect = predict.Movie(sim_weights = MSD_var_Movie_interse
 
 ```
 
+# Model-based Algorithms(Cluster Model)
+```{r}
+source("../lib/clustering_model.R")
+```
+
+```{r,warning=FALSE}
+# train
+cluster_model <- MultmixEM(MS_train, navie=F,C=15)
+
+# predict
+cluster_model_pred <- cluster_predict_MS(MS_train, cluster_model$gamma, cluster_model$mu)
+```
+
+
 # Evaluation 
 ```{r}
 source("../lib/Evaluation.R")
 ```
 
 ### MS Dataset
-### Rank Score
+### Rank Score on train set
+```{r}
+pearson_rankscore_MS_tr <- rank_score(pearson_MS_pred, MS_train)
+pearson_var_rankscore_MS_tr <- rank_score(pearson_var_MS_pred, MS_train)
+
+MSD_rankscore_MS_tr <- rank_score(MSD_MS_pred, MS_train)
+MSD_var_rankscore_MS_tr <- rank_score(MSD_var_MS_pred, MS_train)
+
+cluster_model_MS_tr <- rank_score(cluster_model_pred, MS_train)
+
+pearson_rankscore_MS_tr
+pearson_var_rankscore_MS_tr
+MSD_rankscore_MS_tr
+MSD_var_rankscore_MS_tr
+cluster_model_MS_tr 
+```
+### Rank Score on test set
 ```{r}
 pearson_rankscore_MS <- rank_score(pearson_MS_pred, MS_test)
 pearson_var_rankscore_MS <- rank_score(pearson_var_MS_pred, MS_test)
@@ -194,10 +224,13 @@ pearson_var_rankscore_MS <- rank_score(pearson_var_MS_pred, MS_test)
 MSD_rankscore_MS <- rank_score(MSD_MS_pred, MS_test)
 MSD_var_rankscore_MS <- rank_score(MSD_var_MS_pred, MS_test)
 
+cluster_model_MS <- rank_score(cluster_model_pred, MS_test)
+
 pearson_rankscore_MS
 pearson_var_rankscore_MS
 MSD_rankscore_MS
 MSD_var_rankscore_MS
+cluster_model_MS
 ```
 
 ### EachMovie Dataset
@@ -247,7 +280,4 @@ simrank_ROC_4_Movie
 simrank_var_ROC_4_Movie
 ```
 
-# Model-based Algorithms(Cluster Model)
-```{r}
 
-```
