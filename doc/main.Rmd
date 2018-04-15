@@ -192,13 +192,13 @@ save(cluster_model, file="../output/cluster_model/cluster_model.R")
 
 # predict
 cluster_model_pred <- cluster_predict_MS(MS_train, cluster_model$gamma, cluster_model$mu)
-save(cluster_model_pred, file="../output/cluster_model/cluster_model.R")
+save(cluster_model_pred, file="../output/cluster_model/cluster_model_pred.R")
 ```
 
 ```{r}
 # load saved parameters and predictions
 load("../output/cluster_model/cluster_model.R")
-load("../output/cluster_model/cluster_model.R")
+load("../output/cluster_model/cluster_model_pred.R")
 ```
 
 # Evaluation 
