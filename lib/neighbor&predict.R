@@ -13,8 +13,8 @@ neighbors.select <- function(sim_weights, N = 50){
   coverage = c()
   for(i in 1:nrow(sim_weights)){
     vec1 = sim_weights[i,]
-    sort_abs = sort(abs(vec1),decreasing = T)
-    index = which((abs(vec1) >= sort_abs[1+N]) & (vec1 != 1))
+    sort_abs = sort(unique(abs(vec1)),decreasing = T)
+    index = which((abs(vec1) >= sort_abs[1+N]) )[1:N]
     top.neighbors[[i]] = index
     coverage = union(coverage,index)
   }
