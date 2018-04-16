@@ -13,8 +13,8 @@ neighbors.select <- function(sim_weights, N = 50){
   coverage = c()
   for(i in 1:nrow(sim_weights)){
     vec1 = sim_weights[i,]
-    sort_abs = sort(unique(abs(vec1)),decreasing = T)
-    index = which((abs(vec1) >= sort_abs[1+N]) )[1:N]
+    sort_abs = sort(abs(vec1),decreasing = T)
+    index = which((abs(vec1) >= sort_abs[1+N]))[1:N]
     top.neighbors[[i]] = index
     coverage = union(coverage,index)
   }
@@ -74,22 +74,22 @@ predict.Movie <- function(test = Movie_test, train = Movie_train,
 
 ############################################################
 
-### Example: Pearson + Varaiance Weighting + Best N neighbor + Average z-score predict
-
-## Movie dataset
-load("../output/Similarity_Weight/weight_pearson_Movie.RData")
-load("../output/variance_weight/var_weight_Movie.RData")
-load("../output/data/Movie_test.RData")
-load("../output/data/Movie_train.RData")
-pearson_var_Movie = var_weight_Movie * weight_pearson_Movie
-pearson_var_Movie_neighbor =  neighbors.select(pearson_var_Movie, N=20)
-pearson_var_Movie_pred = predict.Movie(sim_weights = pearson_var_Movie,top.neighbors = pearson_var_Movie_neighbor)
-
-## MS dataset
-load("../output/Similarity_Weight/weight_pearson_MS.RData")
-load("../output/variance_weight/var_weight_MS.RData")
-load("../output/data/MS_test.RData")
-load("../output/data/MS_train.RData")
-pearson_var_MS = var_weight_MS * weight_pearson_MS
-pearson_var_MS_neighbor = neighbors.select(pearson_var_MS,N=20)
-pearson_var_MS_pred = predict.MS(sim_weights =pearson_var_MS, top.neighbors = pearson_var_MS_neighbor)
+# ### Example: Pearson + Varaiance Weighting + Best N neighbor + Average z-score predict
+# 
+# ## Movie dataset
+# load("../output/Similarity_Weight/weight_pearson_Movie.RData")
+# load("../output/variance_weight/var_weight_Movie.RData")
+# load("../output/data/Movie_test.RData")
+# load("../output/data/Movie_train.RData")
+# pearson_var_Movie = var_weight_Movie * weight_pearson_Movie
+# pearson_var_Movie_neighbor =  neighbors.select(pearson_var_Movie, N=20)
+# pearson_var_Movie_pred = predict.Movie(sim_weights = pearson_var_Movie,top.neighbors = pearson_var_Movie_neighbor)
+# 
+# ## MS dataset
+# load("../output/Similarity_Weight/weight_pearson_MS.RData")
+# load("../output/variance_weight/var_weight_MS.RData")
+# load("../output/data/MS_test.RData")
+# load("../output/data/MS_train.RData")
+# pearson_var_MS = var_weight_MS * weight_pearson_MS
+# pearson_var_MS_neighbor = neighbors.select(pearson_var_MS,N=20)
+# pearson_var_MS_pred = predict.MS(sim_weights =pearson_var_MS, top.neighbors = pearson_var_MS_neighbor)

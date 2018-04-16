@@ -25,7 +25,8 @@ rank_score <- function(pred_set, true_set){
 ## MAE (the smaller, the better)
 
 MAE <- function(predict, test){
-  MAE <- mean(abs(predict - test), na.rm = T)
+  diff <- abs(predict-test)
+  MAE <- mean(diff[diff != Inf] , na.rm = T)
   return(MAE)
 }
 
