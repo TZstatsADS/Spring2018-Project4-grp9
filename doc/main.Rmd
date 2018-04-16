@@ -7,12 +7,6 @@ output: pdf_document
 
 # Memory-based Algorithm
 
-## Load the packages, specify directories
-
-```{r}
-
-```
-
 ## Load and process the data
 
 ```{r}
@@ -114,6 +108,7 @@ pearson_MS_pred = predict.MS(sim_weights = weight_pearson_MS,
 MSD_MS_neighbor = neighbors.select(weight_MSD_MS, N=20)
 MSD_MS_pred = predict.MS(sim_weights = weight_MSD_MS, 
                              top.neighbors = MSD_MS_neighbor)
+
 # Pearson + Var
 pearson_var_MS = var_weight_MS * weight_pearson_MS
 pearson_var_MS_neighbor = neighbors.select(pearson_var_MS,N=20)
@@ -164,6 +159,10 @@ MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
 
 # Model-based Algorithms(Cluster Model)
 ```{r}
+#install.packages(c("plyr","doSNOW","mixtools"))
+library(plyr)
+library(doSNOW)
+library(mixtools)
 source("../lib/clustering_model.R")
 ```
 
@@ -238,8 +237,8 @@ pearson_MAE_Movie
 pearson_var_MAE_Movie
 MSD_MAE_Movie
 MSD_var_MAE_Movie
-simrank_MAE_Movie
-simrank_var_MAE_Movie
+#simrank_MAE_Movie
+#simrank_var_MAE_Movie
 ```
 
 ### ROC_4
@@ -257,8 +256,8 @@ pearson_ROC_4_Movie
 pearson_var_ROC_4_Movie
 MSD_ROC_4_Movie
 MSD_var_ROC_4_Movie
-simrank_ROC_4_Movie
-simrank_var_ROC_4_Movie
+#simrank_ROC_4_Movie
+#simrank_var_ROC_4_Movie
 ```
 
 
