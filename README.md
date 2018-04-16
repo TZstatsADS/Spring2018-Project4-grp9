@@ -4,17 +4,24 @@
 
 Term: Spring 2018
 
-+ Team #
-+ Projec title: Lorem ipsum dolor sit amet
++ Team #9
++ Projec title: Collaborative Filtering
 + Team members
-	+ team member 1
-	+ team member 2
-	+ team member 3
-	+ team member 4
-	+ team member 5
-+ Project summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	+ Chen, Ziyu [zc2393@columbia.edu]()
+	+ Kang, Yuhao [yk2758@columbia.edu]()
+	+ Lin, Yanjun [yl3829@columbia.edu]()
+	+ Liu, Fangbing [fl2476@columbia.edu]()
++ Project summary: In this project, we used memory-based algorithm and model-based algorithm to do collaborative filtering. For memory-based algorithm, we use best-n estimator to select neighbours and use combination of different similarities: Pearson correlation, Mean-square-difference, Simrank similarity(only for EachMovie data) and variance weight to do collaborative filtering. We use cluster model (only for Microsoft Web Data) as model-based algorithm. For evaluation, we use ranked scoring to evaluate Microsoft Web Data and use MAE and ROC_4 to evaluate EachMovie data.
+
+ The following shows our result:
+  
 	
-**Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
+**Contribution statement**: ([default](doc/a_note_on_contributions.md))
+  
+  + Chen, Ziyu: Calculated variance weighting. Created selecting neighbours (Best-n estimator) and prediction. Organized the main.rmd file.
+  + Kang, Yuhao: Built SimRank model. Organized the main.rmd file.
+  + Lin, Yanjun：Processed orginal data. Built Cluster Model (EM algorithm). Created rank score evaluation. Organized main.rmd file. Prepared the presentation.
+  + Liu, Fangbing：Processed original data. Calculated similarity weight (Pearson Correlation and Mean-Square-Difference). Created MAE and ROC evaluation. Organized the main.rmd file. Wrote the summary page on github.
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
