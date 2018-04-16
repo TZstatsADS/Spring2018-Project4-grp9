@@ -75,13 +75,6 @@ load("../output/Similarity_Weight/weight_MSD_MS.RData")
 # weight_MSD_Movie <- MSD(Movie_train)
 # save(weight_MSD_Movie, file = "../output/Similarity_Weight/weight_MSD_Movie.RData")
 load("../output/Similarity_Weight/weight_MSD_Movie.RData")
-
-# With Intersection
-# source("../lib/MeanSquare_movie_intersect.R")
-# weight_MSD_Movie_intersect <- MSD_intersect(Movie_train)
-# save(weight_MSD_Movie_intersect,
-#      file = "../output/Similarity_Weight/weight_MSD_Movie_intersect.RData")
-load("../output/Similarity_Weight/weight_MSD_Movie_intersect.RData")
 ```
 
 ### 3. SimRank
@@ -139,15 +132,10 @@ pearson_Movie_neighbor =  neighbors.select(weight_pearson_Movie, N=20)
 pearson_Movie_pred = predict.Movie(sim_weights = weight_pearson_Movie,
                                    top.neighbors = pearson_Movie_neighbor)
 
-# MSD(without intersection)
+# MSD
 MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
 MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
                                    top.neighbors = MSD_Movie_neighbor)
-
-# MSD(with intersection)
-MSD_Movie_neighbor_intersect =  neighbors.select(weight_MSD_Movie_intersect, N=20)
-MSD_Movie_pred_intersect = predict.Movie(sim_weights = weight_MSD_Movie_intersect,
-                                   top.neighbors = MSD_Movie_neighbor_intersect)
 
 # SimRank
 # simrank_Movie_neighbor =  neighbors.select(simrank_Movie, N=20)
@@ -160,17 +148,11 @@ pearson_var_Movie_neighbor =  neighbors.select(pearson_var_Movie, N=20)
 pearson_var_Movie_pred = predict.Movie(sim_weights = pearson_var_Movie,
                                        top.neighbors = pearson_var_Movie_neighbor)
 
-# MSD + Var(without intersection)
+# MSD + Var
 MSD_var_Movie = var_weight_Movie * weight_MSD_Movie
 MSD_var_Movie_neighbor =  neighbors.select(MSD_var_Movie, N=20)
 MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
                                        top.neighbors = MSD_var_Movie_neighbor)
-
-# MSD + Var(with intersection)
-MSD_var_Movie_intersect = var_weight_Movie * weight_MSD_Movie_intersect
-MSD_var_Movie_neighbor_intersect =  neighbors.select(MSD_var_Movie_intersect, N=20)
-MSD_var_Movie_pred_intersect = predict.Movie(sim_weights = MSD_var_Movie_intersect,
-                                       top.neighbors = MSD_var_Movie_neighbor_intersect)
 
 # SimRank + Var
 # simrank_var_Movie = var_weight_Movie * simrank_Movie
@@ -248,8 +230,6 @@ pearson_var_MAE_Movie <- MAE(pearson_var_Movie_pred, Movie_test)
 
 MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
 MSD_var_MAE_Movie <- MAE(MSD_var_Movie_pred, Movie_test)
-MSD_MAE_Movie_intersect <- MAE(MSD_Movie_pred_intersect, Movie_test)
-MSD_var_MAE_Movie_intersect <- MAE(MSD_var_Movie_pred_intersect, Movie_test)
 
 # simrank_MAE_Movie <- MAE(simrank_Movie_pred, Movie_test)
 # simrank_var_MAE_Movie <- MAE(simrank_var_Movie_pred, Movie_test)
@@ -258,8 +238,6 @@ pearson_MAE_Movie
 pearson_var_MAE_Movie
 MSD_MAE_Movie
 MSD_var_MAE_Movie
-MSD_MAE_Movie_intersect
-MSD_var_MAE_Movie_intersect
 simrank_MAE_Movie
 simrank_var_MAE_Movie
 ```
@@ -271,8 +249,6 @@ pearson_var_ROC_4_Movie <- ROC_4(pearson_var_Movie_pred, Movie_test)
 
 MSD_ROC_4_Movie <- ROC_4(MSD_Movie_pred, Movie_test)
 MSD_var_ROC_4_Movie <- ROC_4(MSD_var_Movie_pred, Movie_test)
-MSD_ROC_4_Movie_intersect <- ROC_4(MSD_Movie_pred_intersect, Movie_test)
-MSD_var_ROC_4_Movie_intersect <- ROC_4(MSD_var_Movie_pred_intersect, Movie_test)
 
 # simrank_ROC_4_Movie <- ROC_4(simrank_Movie_pred, Movie_test)
 # simrank_var_ROC_4_Movie <- ROC_4(simrank_var_Movie_pred, Movie_test)
@@ -281,8 +257,6 @@ pearson_ROC_4_Movie
 pearson_var_ROC_4_Movie
 MSD_ROC_4_Movie
 MSD_var_ROC_4_Movie
-MSD_ROC_4_Movie_intersect
-MSD_var_ROC_4_Movie_intersect
 simrank_ROC_4_Movie
 simrank_var_ROC_4_Movie
 ```
