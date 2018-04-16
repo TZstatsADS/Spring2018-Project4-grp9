@@ -166,9 +166,37 @@ library(mixtools)
 source("../lib/clustering_model.R")
 ```
 
+## Cross Validation to choose number of cluster
+```{r,eval=FALSE}
+train_set <- MS_train
+val_set <- matrix(0,nrow=nrow(train_set), ncol=ncol(train_set))
+set.seed(10)
+
+for(i in 1:nrow(train_set)){
+  idx <- as.numeric(unlist(which(train_set[i,] == 1)))
+  val_idx <- sample(idx,round(length(idx))*0.2)
+  train_set[i,val_idx] <- 0
+  val_set[i,val_idx] <- 1
+}
+
+val_score <- c()
+n_cluster <- seq(5,40,5)
+
+for (nc in n_cluster){
+  cluster_model <- MultmixEM(train_set, navie=F,C=nc,epsilon=1e-05)
+  cluster_model_pred <- cluster_predict_MS(train_set, cluster_model$gamma, cluster_model$mu)
+  val_score <- c(val_score,rank_score(cluster_model_pred, val_set))
+}
+
+```
+
+```{r}
+val_score <- c(35.66253, 36.79171, 37.85963, 38.0627, 38.15919, 38.51203, 39.22749, 38.82844)
+```
+
 ```{r,warning=FALSE}
 # train
-cluster_model <- MultmixEM(MS_train, navie=F,C=15)
+cluster_model <- MultmixEM(MS_train, navie=F,C=35)
 save(cluster_model, file="../output/cluster_model/cluster_model.R")
 
 # predict
