@@ -158,12 +158,13 @@ MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
 ```
 
 # Model-based Algorithms(Cluster Model)
-```{r}
+```{r message=FALSE, warning=FALSE}
 #install.packages(c("plyr","doSNOW","mixtools"))
 library(plyr)
 library(doSNOW)
 library(mixtools)
 source("../lib/clustering_model.R")
+source("../lib/Evaluation.R")
 ```
 
 ## Cross Validation to choose number of cluster
