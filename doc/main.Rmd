@@ -73,6 +73,35 @@ load("../output/Similarity_Weight/weight_MSD_Movie.RData")
 
 ### 3. SimRank
 ```{r}
+# source("../lib/Simrank.R")
+# 
+# reg.sim_mat <- simrank_regular(Movie_train, maxIteration = 30, C1 = 0.8)
+# users <- reg.sim_mat[[2]]
+# save(simrank_Movie, file="../output/simrank_Movie.RData")
+load("../output/simrank_Movie.RData")
+
+# adv.sim_mat <- simrank_adv(Movie_train, maxIteration = 30, C1 = 0.8)
+# simrank_Movie_p <- adv.sim_mat[[2]]
+# simrank_Movie_n <- adv.sim_mat[[5]]
+# save(simrank_Movie_p, file="../output/simrank_Movie_positive.RData")
+# save(simrank_Movie_n, file="../output/simrank_Movie_negative.RData")
+
+# Movie_train[is.na(Movie_train)] <- 0
+# n_users <- nrow(Movie_train)
+# n_movies <- ncol(Movie_train)
+# nodesnum <- n_users + n_movies
+# 
+# Movie_train_p <- Movie_train - 3
+# Movie_train_p[Movie_train_p < 0] <- 0
+# Movie_train_n <- -(Movie_train - 4)
+# Movie_train_n[Movie_train_n<0 | Movie_train_n == 4] <- 0
+# save(Movie_train_p, file = "../output/data/Movie_train_p.RData")
+# save(Movie_train_n, file = "../output/data/Movie_train_n.RData")
+
+load("../output/data/Movie_train_p.RData")
+load("../output/data/Movie_train_n.RData")
+load("../output/simrank_Movie_postive.RData")
+load("../output/simrank_Movie_negative.RData")
 
 ```
 
@@ -132,10 +161,21 @@ MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
 MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
                                    top.neighbors = MSD_Movie_neighbor)
 
-# SimRank
-# simrank_Movie_neighbor =  neighbors.select(simrank_Movie, N=20)
-# simrank_Movie_pred = predict.Movie(sim_weights = simrank_Movie,
-#                                    top.neighbors = simrank_Movie_neighbor)
+# Regular SimRank
+simrank_Movie_neighbor =  neighbors.select(as.matrix(simrank_Movie), N=20)
+simrank_pred = predict.Movie(sim_weights = as.matrix(simrank_Movie),
+                                    top.neighbors = simrank_Movie_neighbor)
+
+# Improved SimRank
+simrank_Movie_neighbor_p = neighbors.select(as.matrix(simrank_Movie_p), N=20)
+simrank_pred_p = predict.Movie(sim_weights = as.matrix(simrank_Movie_p), train = Movie_train_p, top.neighbors = simrank_Movie_neighbor_p)
+
+simrank_Movie_neighbor_n = neighbors.select(as.matrix(simrank_Movie_n), N=20)
+simrank_pred_n = predict.Movie(sim_weights = as.matrix(simrank_Movie_n), train = Movie_train_n, top.neighbors = simrank_Movie_neighbor_n)
+
+simrank_pred_p[simrank_pred_p!=0 & !is.na(simrank_pred_p)] <- simrank_pred_p[simrank_pred_p!=0 & !is.na(simrank_pred_p)] + 3
+simrank_pred_n[simrank_pred_n!=0 & !is.na(simrank_pred_n)] <- 4 - simrank_pred_n[simrank_pred_n!=0 & !is.na(simrank_pred_n)]
+sim_rank_pred_np <- simrank_pred_n + simrank_pred_p 
 
 # Pearson + Var
 pearson_var_Movie = var_weight_Movie * weight_pearson_Movie
@@ -150,10 +190,9 @@ MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
                                        top.neighbors = MSD_var_Movie_neighbor)
 
 # SimRank + Var
-# simrank_var_Movie = var_weight_Movie * simrank_Movie
-# simrank_var_Movie_neighbor =  neighbors.select(simrank_var_Movie, N=20)
-# simrank_var_Movie_pred = predict.Movie(sim_weights = simrank_var_Movie,
-#                                        top.neighbors = simrank_var_Movie_neighbor)
+simrank_var_Movie = var_weight_Movie * simrank_Movie
+simrank_var_Movie_neighbor =  neighbors.select(simrank_var_Movie, N=20)
+simrank_var_Movie_pred = predict.Movie(sim_weights = simrank_var_Movie,                                                             top.neighbors = simrank_var_Movie_neighbor)
 
 ```
 
@@ -259,15 +298,17 @@ pearson_var_MAE_Movie <- MAE(pearson_var_Movie_pred, Movie_test)
 MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
 MSD_var_MAE_Movie <- MAE(MSD_var_Movie_pred, Movie_test)
 
-# simrank_MAE_Movie <- MAE(simrank_Movie_pred, Movie_test)
-# simrank_var_MAE_Movie <- MAE(simrank_var_Movie_pred, Movie_test)
+simrank_MAE_Movie <- MAE(simrank_pred, Movie_test)
+simrank_MAE_Movie_np <- MAE(simrank_pred_np, Movie_test)
+simrank_var_MAE_Movie <- MAE(simrank_var_Movie_pred, Movie_test)
 
 pearson_MAE_Movie
 pearson_var_MAE_Movie
 MSD_MAE_Movie
 MSD_var_MAE_Movie
-#simrank_MAE_Movie
-#simrank_var_MAE_Movie
+simrank_MAE_Movie
+simrank_MAE_Movie_np
+simrank_var_MAE_Movie
 ```
 
 ### ROC_4
