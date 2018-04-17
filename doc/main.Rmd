@@ -170,12 +170,12 @@ simrank_pred = predict.Movie(sim_weights = as.matrix(simrank_Movie),
 simrank_Movie_neighbor_p = neighbors.select(as.matrix(simrank_Movie_p), N=20)
 simrank_pred_p = predict.Movie(sim_weights = as.matrix(simrank_Movie_p), train = Movie_train_p, top.neighbors = simrank_Movie_neighbor_p)
 
+Movie_train_n[Movie_train_n!=0 & !is.na(Movie_train_n)] <- 4 - Movie_train_n[Movie_train_n!=0 & !is.na(Movie_train_n)]
 simrank_Movie_neighbor_n = neighbors.select(as.matrix(simrank_Movie_n), N=20)
 simrank_pred_n = predict.Movie(sim_weights = as.matrix(simrank_Movie_n), train = Movie_train_n, top.neighbors = simrank_Movie_neighbor_n)
 
-simrank_pred_p[simrank_pred_p!=0 & !is.na(simrank_pred_p)] <- simrank_pred_p[simrank_pred_p!=0 & !is.na(simrank_pred_p)] + 3
-simrank_pred_n[simrank_pred_n!=0 & !is.na(simrank_pred_n)] <- 4 - simrank_pred_n[simrank_pred_n!=0 & !is.na(simrank_pred_n)]
-sim_rank_pred_np <- simrank_pred_n + simrank_pred_p 
+simrank_pred_np <- simrank_pred_n + simrank_pred_p 
+
 
 # Pearson + Var
 pearson_var_Movie = var_weight_Movie * weight_pearson_Movie
