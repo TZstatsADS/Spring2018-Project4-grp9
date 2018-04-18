@@ -11,6 +11,7 @@ weight_pearson_MS <- round(cor(t(MS_train), method = "pearson"),4)
 save(weight_pearson_MS, file = "../output/Similarity_Weight/weight_pearson_MS.RData")
 
 weight_pearson_Movie <- round(cor(t(Movie_train), method = "pearson", use = "pairwise.complete.obs"),4)
+weight_pearson_Movie <- weight_pearson_Movie*mat
 save(weight_pearson_Movie, file = "../output/Similarity_Weight/weight_pearson_Movie.RData")
 
 ### Mean Square Difference
@@ -40,4 +41,21 @@ save(weight_MSD_MS, file = "../output/Similarity_Weight/weight_MSD_MS.RData")
 
 weight_MSD_Movie <- MSD(Movie_train)
 save(weight_MSD_Movie, file = "../output/Similarity_Weight/weight_MSD_Movie.RData")
+
+### Similarity Weights(MSD of movie data with intersection > 30)
+
+n_intersect <- matrix(NA, nrow = nrow(Movie_train), ncol = nrow(Movie_train))
+for(i in 1:nrow(Movie_train)){
+  for(j in 1:nrow(Movie_train)){
+    r_i <- Movie_train[i,]
+    r_j <- Movie_train[j,]
+    n_intersect[i,j] <- length(intersect(which(!is.na(r_i)), which(!is.na(r_j))))
+  }
+}
+mean(n_intersect) # 45
+
+mat <- ifelse(n_intersect < 30, 0, 1)
+
+weight_MSD_Movie_30 <- mat*weight_MSD_Movie
+save(weight_MSD_Movie_30, file = "../output/Similarity_Weight/weight_MSD_Movie_30.RData")
 

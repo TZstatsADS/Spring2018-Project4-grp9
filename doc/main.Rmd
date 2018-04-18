@@ -69,6 +69,7 @@ load("../output/Similarity_Weight/weight_MSD_MS.RData")
 # weight_MSD_Movie <- MSD(Movie_train)
 # save(weight_MSD_Movie, file = "../output/Similarity_Weight/weight_MSD_Movie.RData")
 load("../output/Similarity_Weight/weight_MSD_Movie.RData")
+load("../output/Similarity_Weight/weight_MSD_Movie_30.RData")
 ```
 
 ### 3. SimRank
@@ -139,7 +140,6 @@ load("../output/variance_weight/MSD_var_weight_MS.RData")
 # save(MSD_var_weight_Movie, file = "../output/variance_weight/MSD_var_weight_Movie.RData")
 load("../output/variance_weight/MSD_var_weight_Movie.RData")
 
-
 ```
 
 ## Selecting Neighborhoods
@@ -157,6 +157,7 @@ pearson_MS_pred = predict.MS(sim_weights = weight_pearson_MS,
 MSD_MS_neighbor = neighbors.select(weight_MSD_MS, N=20)
 MSD_MS_pred = predict.MS(sim_weights = weight_MSD_MS, 
                              top.neighbors = MSD_MS_neighbor)
+
 
 # Pearson + Var
 pearson_var_MS = var_weight_MS
@@ -176,10 +177,15 @@ pearson_Movie_neighbor =  neighbors.select(weight_pearson_Movie, N=20)
 pearson_Movie_pred = predict.Movie(sim_weights = weight_pearson_Movie,
                                    top.neighbors = pearson_Movie_neighbor)
 
-# MSD
-MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
-MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
-                                   top.neighbors = MSD_Movie_neighbor)
+# # MSD
+# MSD_Movie_neighbor =  neighbors.select(weight_MSD_Movie, N=20)
+# MSD_Movie_pred = predict.Movie(sim_weights = weight_MSD_Movie,
+#                                    top.neighbors = MSD_Movie_neighbor)
+
+# MSD(intersection >= 30)
+MSD_Movie_neighbor_30 = neighbors.select(weight_MSD_Movie_30, N=20)
+MSD_Movie_pred_30 = predict.Movie(sim_weights = weight_MSD_Movie_30, 
+                             top.neighbors = MSD_Movie_neighbor_30)
 
 # Regular SimRank
 simrank_Movie_neighbor =  neighbors.select(as.matrix(simrank_Movie), N=20)
@@ -214,9 +220,9 @@ MSD_var_Movie_pred = predict.Movie(sim_weights = MSD_var_Movie,
 # Model-based Algorithms(Cluster Model)
 ```{r message=FALSE, warning=FALSE}
 #install.packages(c("plyr","doSNOW","mixtools"))
-library(plyr)
-library(doSNOW)
-library(mixtools)
+# library(plyr)
+# library(doSNOW)
+# library(mixtools)
 source("../lib/clustering_model.R")
 source("../lib/Evaluation.R")
 ```
@@ -304,29 +310,14 @@ MSD_var_rankscore_MS
 cluster_model_MS
 ```
 
-### MAE
-```{r}
-pearson_MAE_MS <- MAE(pearson_MS_pred, MS_test)
-pearson_var_MAE_MS <- MAE(pearson_var_MS_pred, MS_test)
-
-MSD_MAE_MS <- MAE(MSD_MS_pred, MS_test)
-MSD_var_MAE_MS <- MAE(MSD_var_MS_pred, MS_test)
-
-
-pearson_MAE_MS
-pearson_var_MAE_MS
-MSD_MAE_MS
-MSD_var_MAE_MS
-```
-
-
 ### EachMovie Dataset
 ### MAE
 ```{r}
 pearson_MAE_Movie <- MAE(pearson_Movie_pred, Movie_test)
 pearson_var_MAE_Movie <- MAE(pearson_var_Movie_pred, Movie_test)
 
-MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
+#MSD_MAE_Movie <- MAE(MSD_Movie_pred, Movie_test)
+MSD_MAE_Movie_30 <- MAE(MSD_Movie_pred_30, Movie_test)
 MSD_var_MAE_Movie <- MAE(MSD_var_Movie_pred, Movie_test)
 
 simrank_MAE_Movie <- MAE(simrank_pred, Movie_test)
@@ -334,7 +325,8 @@ simrank_MAE_Movie_np <- MAE(simrank_pred_np, Movie_test)
 
 pearson_MAE_Movie
 pearson_var_MAE_Movie
-MSD_MAE_Movie
+#MSD_MAE_Movie
+MSD_MAE_Movie_30
 MSD_var_MAE_Movie
 simrank_MAE_Movie
 simrank_MAE_Movie_np
@@ -346,7 +338,8 @@ simrank_MAE_Movie_np
 pearson_ROC_4_Movie <- ROC_4(pearson_Movie_pred, Movie_test)
 pearson_var_ROC_4_Movie <- ROC_4(pearson_var_Movie_pred, Movie_test)
 
-MSD_ROC_4_Movie <- ROC_4(MSD_Movie_pred, Movie_test)
+#MSD_ROC_4_Movie <- ROC_4(MSD_Movie_pred, Movie_test)
+MSD_ROC_4_Movie_30 <- ROC_4(MSD_Movie_pred_30, Movie_test)
 MSD_var_ROC_4_Movie <- ROC_4(MSD_var_Movie_pred, Movie_test)
 
 simrank_ROC_4_Movie <- ROC_4(simrank_pred, Movie_test)
@@ -355,7 +348,8 @@ np_simrank_ROC_4_Movie <- ROC_4(simrank_pred_np, Movie_test)
 
 pearson_ROC_4_Movie
 pearson_var_ROC_4_Movie
-MSD_ROC_4_Movie
+#MSD_ROC_4_Movie
+MSD_ROC_4_Movie_30
 MSD_var_ROC_4_Movie
 simrank_ROC_4_Movie
 np_simrank_ROC_4_Movie
