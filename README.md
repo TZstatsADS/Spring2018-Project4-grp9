@@ -16,7 +16,7 @@ Term: Spring 2018
  The following shows our result:
  
  
-+ Presentation slides can be found here: [Googld Slide](https://docs.google.com/presentation/d/1_qWU0l8XnkMMdqb7Q2sZuy30lrrRvheV3Rdc0Ui7-k8/edit#slide=id.g3848589a50_0_35)
++ Presentation slides can be found here: [Googld Slide](https://docs.google.com/presentation/d/1_qWU0l8XnkMMdqb7Q2sZuy30lrrRvheV3Rdc0Ui7-k8/edit?usp=sharing)
 
   
 	
