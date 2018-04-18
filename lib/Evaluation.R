@@ -36,9 +36,8 @@ ROC_4 <- function(predict, test){
   ## set filter = 4, which means the rating > 4 is good item, rating <=4 is bad item
   ## actual ratings are from 0-5, correspond to the data 1-6
   filter <- matrix(4, nrow = nrow(predict), ncol = ncol(predict))
-  good_num <- sum((predict > filter) == (test > filter), na.rm = T)
-  n <- sum(!is.na(predict))
+  good_num <- mean((predict >= filter) == (test >= filter), na.rm = T)
+  #n <- sum((predict >= filter)==1,na.rm=T)
   
-  return(good_num/n)
+  return(good_num)
 }
-
