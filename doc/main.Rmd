@@ -255,7 +255,7 @@ for (nc in n_cluster){
 val_score <- c(35.66253, 36.79171, 37.85963, 38.0627, 38.15919, 38.51203, 39.22749, 38.82844)
 ```
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,eval=FALSE}
 # train
 cluster_model <- MultmixEM(MS_train, navie=F,C=35)
 save(cluster_model, file="../output/cluster_model/cluster_model.R")

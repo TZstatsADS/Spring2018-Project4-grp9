@@ -72,6 +72,17 @@ MSD_var <- function(data){
   return(sim)
 }
 
+n_intersect <- matrix(NA, nrow = nrow(Movie_train), ncol = nrow(Movie_train))
+for(i in 1:nrow(Movie_train)){
+  for(j in 1:nrow(Movie_train)){
+    r_i <- Movie_train[i,]
+    r_j <- Movie_train[j,]
+    n_intersect[i,j] <- length(intersect(which(!is.na(r_i)), which(!is.na(r_j))))
+  }
+}
+mean(n_intersect) # 45
+
+mat <- ifelse(n_intersect < 30, 0, 1)
 
 ## Apply it to training data
 load("../output/data/Movie_train.RData")
@@ -86,6 +97,7 @@ save(var_weight_MS, file = "../output/variance_weight/var_weight_MS.RData")
 var_weight_Movie <- var_weight_matrix(mat = Movie_train)
 var_weight_Movie[is.na(var_weight_Movie)] = 0
 var_weight_Movie <- round(variance_weight_Movie,3)
+var_weight_Movie <- var_weight_Movie*mat
 save(var_weight_Movie, file = "../output/variance_weight/var_weight_Movie.RData")
 
 ## Apply it to training data
@@ -95,12 +107,12 @@ load("../output/data/MS_train.RData")
 MSD_var_weight_MS <- MSD_var(data = MS_train)
 MSD_var_weight_MS[is.na(MSD_var_weight_MS)] = 0
 MSD_var_weight_MS <- round(MSD_var_weight_MS,4)
-save(MSD_var_weight_MS, file = "~/Documents/GitHub/Spring2018-Project4-grp9/output/variance_weight/MSD_var_weight_MS.RData")
-
+save(MSD_var_weight_MS, file = "../output/variance_weight/MSD_var_weight_MS.RData")
 
 MSD_var_weight_Movie <- MSD_var(data = Movie_train)
 MSD_var_weight_Movie[is.na(MSD_var_weight_Movie)] = 0
 MSD_var_weight_Movie <- round(MSD_var_weight_Movie,4)
-save(MSD_var_weight_Movie, file = "~/Documents/GitHub/Spring2018-Project4-grp9/output/variance_weight/MSD_var_weight_Movie.RData")
+MSD_var_weight_Movie <- MSD_var_weight_Movie*mat
+save(MSD_var_weight_Movie, file = "../output/variance_weight/MSD_var_weight_Movie.RData")
 
 
