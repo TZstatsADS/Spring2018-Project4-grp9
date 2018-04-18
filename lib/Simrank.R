@@ -24,7 +24,7 @@ simrank_regular <- function(dense_mat, maxIteration = 30, C1 = 0.8) {
 }
 
 
-# Improved simrank
+# N/P Simrank
 simrank_adv <- function(dense_mat, maxIteration = 30, C1 = 0.8) {
   dense_mat[is.na(dense_mat)] <- 0
   n_users <- nrow(dense_mat)
