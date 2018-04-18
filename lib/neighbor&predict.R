@@ -11,6 +11,7 @@ neighbors.select <- function(sim_weights, N = 50){
   ## Output: A list of neighbors's index for each users
   top.neighbors = list()
   coverage = c()
+  diag(sim_weights) <-0
   for(i in 1:nrow(sim_weights)){
     vec1 = sim_weights[i,]
     sort_abs = sort(abs(vec1),decreasing = T)
