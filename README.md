@@ -15,9 +15,13 @@ Term: Spring 2018
 
  The following shows our result:
  
- MS Data: ![](../figs/MS.png)
+ MS Data: 
  
- Movie Data: ![](../figs/MOVIE.png)
+ ![](figs/MS.png)
+ 
+ Movie Data: 
+ 
+ ![](figs/MOVIE.png)
  
  
 + Presentation slides can be found here: [Googld Slide](https://docs.google.com/presentation/d/1_qWU0l8XnkMMdqb7Q2sZuy30lrrRvheV3Rdc0Ui7-k8/edit?usp=sharing)
