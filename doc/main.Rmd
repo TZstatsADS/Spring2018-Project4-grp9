@@ -193,14 +193,20 @@ simrank_pred = predict.Movie(sim_weights = as.matrix(simrank_Movie),
                                     top.neighbors = simrank_Movie_neighbor)
 
 # Improved SimRank
-simrank_Movie_neighbor_p = neighbors.select(as.matrix(simrank_Movie_p), N=20)
-simrank_pred_p = predict.Movie(sim_weights = as.matrix(simrank_Movie_p), train = Movie_train_p, top.neighbors = simrank_Movie_neighbor_p)
+simrank_Movie_neighbor_p = neighbors.select(simrank_Movie_p, N=20)
+simrank_pred_p = predict.Movie(sim_weights = simrank_Movie_p, train = Movie_train, top.neighbors = simrank_Movie_neighbor_p)
+#simrank_pred_p[simrank_pred_p<1] <- 0
 
-Movie_train_n[Movie_train_n!=0 & !is.na(Movie_train_n)] <- 4 - Movie_train_n[Movie_train_n!=0 & !is.na(Movie_train_n)]
-simrank_Movie_neighbor_n = neighbors.select(as.matrix(simrank_Movie_n), N=20)
-simrank_pred_n = predict.Movie(sim_weights = as.matrix(simrank_Movie_n), train = Movie_train_n, top.neighbors = simrank_Movie_neighbor_n)
+simrank_Movie_neighbor_n = neighbors.select(simrank_Movie_n, N=20)
+simrank_pred_n = predict.Movie(sim_weights = as.matrix(simrank_Movie_n), train = Movie_train, top.neighbors = simrank_Movie_neighbor_n)
+#simrank_pred_n[simrank_pred_n<1] <- 0
 
-simrank_pred_np <- simrank_pred_n + simrank_pred_p 
+simrank_pred_p[is.na(simrank_pred_p) | simrank_pred_p < 4] <- 0
+simrank_pred_n[is.na(simrank_pred_n) | simrank_pred_p > 3] <- 0
+simrank_pred_np <- simrank_pred_n + simrank_pred_p
+simrank_pred_np[simrank_pred_np==0] <- NA
+simrank_pred_np[simrank_pred_np<1] <- 1
+simrank_pred_np[simrank_pred_np>6] <- 6
 
 
 # Pearson + Var
