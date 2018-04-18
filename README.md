@@ -22,7 +22,7 @@ Term: Spring 2018
 	
 **Contribution statement**: ([default](doc/a_note_on_contributions.md))
   
-  + Chen, Ziyu: Built SimRank model. Organized the main.rmd file.
+  + Chen, Ziyu: Built the regular SimRank model and the improved SimRank model. Organized the main.rmd file.
   + Kang, Yuhao: Calculated variance weighting. Created selecting neighbours (Best-n estimator) and prediction. Organized the main.rmd file.
   + Lin, Yanjun：Processed orginal data. Built Cluster Model (EM algorithm). Created rank score evaluation. Organized main.rmd file. Prepared the presentation. Combined variance wighting with MSD and Correlation, and improved code efficiency. Improved SimRank by seperating the data into positive and negative connections.
   + Liu, Fangbing：Processed original data. Calculated similarity weight (Pearson Correlation and Mean-Square-Difference). Created MAE and ROC evaluation. Organized the main.rmd file. Wrote the summary page on github.
